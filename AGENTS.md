@@ -29,3 +29,7 @@ an unverified change as unverified.
 - Keep `ks.jks`. It is gitignored and generated on first build; a different key makes updates
   fail to install with a signature mismatch.
 - `build/`, `*.apk` and `*.idsig` are gitignored build output. Leave them untracked.
+- Releases are an interface, not just an artifact: tag `<versionCode>-<versionName>`, exactly one
+  asset named `FermataAutoEnabler.apk`, never a draft or pre-release. The Obtainium deep link in
+  `README.md` parses the tag and indexes the asset list; changing either means regenerating the
+  link. See the Releasing section of CONTRIBUTING.md.
