@@ -13,8 +13,9 @@ should work on LSPosed too; it uses only the classic Xposed API.
 
 ## Requirements
 
-- Root, and an Xposed framework: Vector, LSPosed, or equivalent.
-- Fermata Auto installed.
+- Root, and an Xposed framework: [Vector](https://github.com/JingMatrix/Vector/releases),
+  LSPosed, or equivalent.
+- [Fermata Auto](https://github.com/AndreyPavlenko/Fermata/releases) installed.
 - Android Auto with developer mode on and **Unknown sources** enabled
   (Android Auto settings → tap the version 10 times → Developer settings).
   This module does not replace that setting; both are needed.
