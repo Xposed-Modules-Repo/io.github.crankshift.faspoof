@@ -27,40 +27,25 @@ should work on LSPosed too; it uses only the classic Xposed API.
 
 ### By hand
 
-Install the module from your manager's module repository, or download the APK from the
-[latest release](https://github.com/Xposed-Modules-Repo/io.github.crankshift.faspoof/releases/latest)
-and install it:
+1. Open the [latest release](https://github.com/Xposed-Modules-Repo/io.github.crankshift.faspoof/releases/latest)
+   and download `FermataAutoEnabler.apk`.
+2. Tap the downloaded file and allow the install.
 
-```sh
-adb install -r FermataAutoEnabler.apk
-```
+The module is also in the module repository built into LSPosed and Vector, if you would rather
+install it from there.
 
 ## Enable
 
-Enable the module and limit its scope to Android Auto. In a manager UI, tick only
-Android Auto. With the Vector CLI:
+1. Open your Xposed manager — Vector, LSPosed, or equivalent.
+2. Find **Fermata Auto Enabler** in the module list and switch it on.
+3. Open the module's scope and tick **Android Auto**, and nothing else.
+4. Force stop Android Auto so it restarts with the hook in place: Android settings → Apps →
+   Android Auto → Force stop. A reboot does the same.
+5. Open Android Auto settings → Customize launcher. Fermata Auto is now in the list; tick it.
 
-```sh
-su -c "/data/adb/lspd/cli modules enable io.github.crankshift.faspoof"
-su -c "/data/adb/lspd/cli scope set io.github.crankshift.faspoof com.google.android.projection.gearhead/0"
-```
-
-Restart Android Auto and confirm the hooks loaded:
-
-```sh
-adb shell am force-stop com.google.android.projection.gearhead
-adb logcat | grep FASpoof
-```
-
-Expected:
-
-```
-[FASpoof] hooks installed in com.google.android.projection.gearhead:projection
-[FASpoof] hooks installed in com.google.android.projection.gearhead:shared
-[FASpoof] hooks installed in com.google.android.projection.gearhead:car
-```
-
-Fermata Auto should then appear in Android Auto settings → Customize launcher.
+If Fermata Auto is still missing, check that **Unknown sources** is on in Android Auto's
+developer settings — this module does not replace it. To confirm the module loaded at all, see
+the log check in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Scope
 
