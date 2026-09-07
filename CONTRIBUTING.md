@@ -137,3 +137,43 @@ adb logcat | grep FASpoof
 
 A successful load prints `hooks installed in <process>` for each Android Auto process. Hook
 failures are logged rather than thrown, so an absent line means the hook did not install.
+
+## Releasing
+
+A release is the only thing Obtainium and the README download link can see, so its shape is part
+of the interface:
+
+1. Bump `android:versionCode` (integer, +1) and `android:versionName` in `AndroidManifest.xml`.
+2. `./build.sh`. The APK must be signed with the same `ks.jks` as every earlier release, or the
+   update fails to install with a signature mismatch.
+3. Tag `<versionCode>-<versionName>` — `2-1.1`, and so on. That is the LSPosed module repository
+   convention and the rest of this depends on it.
+4. Publish a full GitHub release: not a draft, not a pre-release, with exactly one asset named
+   `FermataAutoEnabler.apk`.
+
+Obtainium reads the tag as the version string. The deep link in [README.md](README.md) carries a
+`versionExtractionRegEx` of `^\d+-(.+)$` with `matchGroupToUse` `$1`, which reduces `2-1.1` to
+`1.1` — the `versionName` the installed APK reports — so Obtainium can tell installed from
+latest instead of offering an endless update. Drafts and pre-releases are skipped by default, and
+a second APK asset would make `preferredApkIndex: 0` pick the wrong file.
+
+Changing the tag format, the asset name or the package name means regenerating the link. It is
+`obtainium://app/` followed by the URL-encoded form of:
+
+```json
+{
+  "id": "io.github.crankshift.faspoof",
+  "url": "https://github.com/Xposed-Modules-Repo/io.github.crankshift.faspoof",
+  "author": "crankshift",
+  "name": "Fermata Auto Enabler",
+  "preferredApkIndex": 0,
+  "additionalSettings": "{\"versionExtractionRegEx\":\"^\\\\d+-(.+)$\",\"matchGroupToUse\":\"$1\",\"versionDetection\":true,\"apkFilterRegEx\":\"\\\\.apk$\",\"about\":\"Xposed module that makes sideloaded Fermata Auto visible in Android Auto.\"}"
+}
+```
+
+`additionalSettings` is a JSON string inside the JSON, not a nested object; Obtainium calls
+`jsonDecode` on it a second time and rejects the import if it is an object. `author` only holds
+until the first update check — Obtainium preserves an imported `name` but re-derives `author`
+from the repository owner, so the entry reverts to `Xposed-Modules-Repo` on its own. Encode the whole
+thing with `python3 -c 'import json,urllib.parse,sys; print(urllib.parse.quote(sys.stdin.read().strip(), safe=""))'`
+and paste the result after `obtainium://app/`.
