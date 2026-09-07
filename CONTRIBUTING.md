@@ -164,7 +164,7 @@ Changing the tag format, the asset name or the package name means regenerating t
 {
   "id": "io.github.crankshift.faspoof",
   "url": "https://github.com/Xposed-Modules-Repo/io.github.crankshift.faspoof",
-  "author": "Xposed-Modules-Repo",
+  "author": "crankshift",
   "name": "Fermata Auto Enabler",
   "preferredApkIndex": 0,
   "additionalSettings": "{\"versionExtractionRegEx\":\"^\\\\d+-(.+)$\",\"matchGroupToUse\":\"$1\",\"versionDetection\":true,\"apkFilterRegEx\":\"\\\\.apk$\",\"about\":\"Xposed module that makes sideloaded Fermata Auto visible in Android Auto.\"}"
@@ -172,6 +172,8 @@ Changing the tag format, the asset name or the package name means regenerating t
 ```
 
 `additionalSettings` is a JSON string inside the JSON, not a nested object; Obtainium calls
-`jsonDecode` on it a second time and rejects the import if it is an object. Encode the whole
+`jsonDecode` on it a second time and rejects the import if it is an object. `author` only holds
+until the first update check — Obtainium preserves an imported `name` but re-derives `author`
+from the repository owner, so the entry reverts to `Xposed-Modules-Repo` on its own. Encode the whole
 thing with `python3 -c 'import json,urllib.parse,sys; print(urllib.parse.quote(sys.stdin.read().strip(), safe=""))'`
 and paste the result after `obtainium://app/`.
