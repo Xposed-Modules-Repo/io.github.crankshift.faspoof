@@ -76,7 +76,7 @@ version renames them all, the module falls back to rewriting every non-null Stri
 
 ## Configuration
 
-The target package is a constant in `src/com/crankshift/faspoof/Main.java`:
+The target package is a constant in `src/io.github.crankshift.faspoof/Main.java`:
 
 ```java
 private static final String TARGET = "me.aap.fermata.auto.dear.google.why";
@@ -116,7 +116,7 @@ Verify the stubs did not leak into the build:
 dexdump -f build/classes.dex | grep -i "class descriptor"
 ```
 
-Only `com.crankshift.faspoof` classes should be listed.
+Only `io.github.crankshift.faspoof` classes should be listed.
 
 ## Install
 
@@ -128,8 +128,8 @@ Then enable the module and limit its scope to Android Auto. In a manager UI, tic
 Android Auto. With the Vector CLI:
 
 ```sh
-su -c "/data/adb/lspd/cli modules enable com.crankshift.faspoof"
-su -c "/data/adb/lspd/cli scope set com.crankshift.faspoof com.google.android.projection.gearhead/0"
+su -c "/data/adb/lspd/cli modules enable io.github.crankshift.faspoof"
+su -c "/data/adb/lspd/cli scope set io.github.crankshift.faspoof com.google.android.projection.gearhead/0"
 ```
 
 Restart Android Auto and confirm the hooks loaded:

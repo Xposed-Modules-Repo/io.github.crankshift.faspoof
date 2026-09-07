@@ -1,4 +1,4 @@
-package com.crankshift.faspoof;
+package io.github.crankshift.faspoof;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
